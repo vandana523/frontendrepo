@@ -1,0 +1,54 @@
+<!-- <div class="login_form">
+    <form [formGroup]='LoginDetails'>
+        <div>
+                <mat-form-field>
+                        <input type="email" matInput placeholder="Email Address" formControlName="user_email">
+                      </mat-form-field>
+        </div>
+        <div>
+        <mat-form-field>
+         
+          </mat-form-field>
+        </div>
+    </form>
+</div> -->
+<div class="flex">
+    <div class="w50p form_background">
+      <div class="_flex_center tp_layer">
+        <div class="welcome_text">
+          <h3 >The best platform for the best people, let us begin from here</h3>
+        </div>
+
+
+      </div>
+
+      </div>
+  <div class="w50p form_login">
+    <div class="login_form   ">
+        <form [formGroup]='LoginDetails' class="" autocomplete="off">
+            <h2>You are just a login away</h2>
+          <div class="form_input_container">
+           
+              <mat-form-field class="w100p">
+                  <input type="email" matInput placeholder="Email Address" formControlName="user_email">
+                  <mat-error *ngIf="LoginDetails.get('user_email').errors">
+                      Enter a valid email</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="form_input_container">
+              <mat-form-field class="w100p">
+                  <input type="password" matInput placeholder="Password" formControlName="user_password">
+                  <mat-error *ngIf="LoginDetails.get('user_password').errors">
+                      Enter password</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="text_right primary_button login_button">
+              <button [disabled]='!LoginDetails.valid' mat-raised-button (click)='login()'>Login</button>
+          </div>
+        
+      </form>
+    </div>
+    <app-footer></app-footer>
+  </div>
+
+</div>

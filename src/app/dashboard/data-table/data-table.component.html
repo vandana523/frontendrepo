@@ -1,0 +1,275 @@
+
+
+
+
+
+<div class="table_data">
+  <div class="text_right upload_button">
+      <button *ngIf='tableData.length > 0'  mat-raised-button class="uploader" (click)='openParser()'>Upload</button>
+  </div>
+  <div class="text-center" *ngIf='tableData.length === 0'>
+    <img src="../../../assets/warning.png"   class="mb-3">
+    <h4  class="mb-3">Please upload (.csv) file by pressing the upload button </h4>
+    <button mat-raised-button class="uploader" (click)='openParser()'>Upload</button>
+  </div>
+    <div class="custom_table  " *ngIf='tableData.length > 0' >
+      <div class="mb-3 text-center">
+       <h4> Exceptions</h4>
+      </div>
+      <div class="_flex_center">
+          <div class="mb-3">
+              <p>Batch ID : <span>{{batchID}}</span></p>
+            </div> 
+          <div class="mb-3 ">
+              <p>Total Rows:  <span>{{dispTotal}}</span></p>
+            </div>
+            <div class="mb-3 ">
+              <p>Failure :  <span>{{dispFailure}}</span></p>
+            </div>
+            <div class="mb-3 ">
+              <p>Success :  <span>{{dispSuccess}}</span></p>
+            </div>
+           
+      </div>
+      
+      <div class="scrollable_table">
+          <table class="mat-elevation-z8 " mat-table matSort [dataSource]='tableData'>
+              <ng-container matColumnDef="OPF No">
+                <th mat-header-cell *matHeaderCellDef> OPF No </th>
+                <td mat-cell *matCellDef="let element"> {{element.opf_no}} {{element.middlename}} {{element.lastname}}
+                </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="OPF Date">
+                <th mat-header-cell *matHeaderCellDef>OPF Date  </th>
+                <td mat-cell *matCellDef="let element"> {{element.opf_date}} </td>
+              </ng-container>
+              <ng-container matColumnDef="ACCNT Manager">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ACCNT Manager </th>
+                <td mat-cell *matCellDef="let element"> {{element.accnt_mgr}} 
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Raised ACCNT Manager">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Raised ACCNT Manager</th>
+                <td mat-cell *matCellDef="let element">
+                 {{element.raised_accnt_mgr}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Program Manager">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Program Manager</th>
+                <td mat-cell *matCellDef="let element">
+                 {{element.pm}} </td>
+              </ng-container>
+              <ng-container matColumnDef="EMP Status">
+                  <th mat-header-cell *matHeaderCellDef> EMP Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.emp_status}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Company">
+                  <th mat-header-cell *matHeaderCellDef> Company </th>
+                  <td mat-cell *matCellDef="let element"> {{element['company']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Product Size">
+                  <th mat-header-cell *matHeaderCellDef> Product Size </th>
+                  <td mat-cell *matCellDef="let element"> {{element['product_size']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Services">
+                  <th mat-header-cell *matHeaderCellDef> Services </th>
+                  <td mat-cell *matCellDef="let element"> {{element['services']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Vertical">
+                  <th mat-header-cell *matHeaderCellDef> Vertical </th>
+                  <td mat-cell *matCellDef="let element"> {{element['vertical']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Business Type">
+                  <th mat-header-cell *matHeaderCellDef> Business Type </th>
+                  <td mat-cell *matCellDef="let element"> {{element['business_type']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Region(Current AM)">
+                  <th mat-header-cell *matHeaderCellDef>Region(Current AM) </th>
+                  <td mat-cell *matCellDef="let element"> {{element['region_current_am']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Region(Raised AM)">
+                  <th mat-header-cell *matHeaderCellDef>Region(Raised AM) </th>
+                  <td mat-cell *matCellDef="let element"> {{element['region_raised_am']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='Order Type'>
+                  <th mat-header-cell *matHeaderCellDef>Order Type</th>
+                  <td mat-cell *matCellDef="let element"> {{element['order_type']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='OTC'>
+                  <th mat-header-cell *matHeaderCellDef>OTC</th>
+                  <td mat-cell *matCellDef="let element"> {{element['otc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='OTC Multiplier'>
+                  <th mat-header-cell *matHeaderCellDef>OTC Multiplier</th>
+                  <td mat-cell *matCellDef="let element"> {{element['otc_multiplier']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='MRC'>
+                  <th mat-header-cell *matHeaderCellDef>MRC</th>
+                  <td mat-cell *matCellDef="let element"> {{element['mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='Currency'>
+                  <th mat-header-cell *matHeaderCellDef>Currency</th>
+                  <td mat-cell *matCellDef="let element"> {{element['currency']}} </td>
+                </ng-container>
+              <ng-container matColumnDef='Deactivation Raised Date'>
+                  <th mat-header-cell *matHeaderCellDef>Deactivation Raised Date</th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_raised_date']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Deactivation Date">
+                  <th mat-header-cell *matHeaderCellDef>Deactivation Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_date'] }} </td>
+                </ng-container>
+              <ng-container matColumnDef="Approval Status">
+                  <th mat-header-cell *matHeaderCellDef> Approval Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_date'] }} </td>
+                </ng-container>
+              <ng-container matColumnDef="Order Status">
+                  <th mat-header-cell *matHeaderCellDef> Order Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['order_status']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Effective Acc Mngr">
+                  <th mat-header-cell *matHeaderCellDef> Effective Acc Mngr </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_acc_mngr']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Effective Region">
+                  <th mat-header-cell *matHeaderCellDef> Effective Region </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_region']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Effective Trans Date">
+                  <th mat-header-cell *matHeaderCellDef> Effective Trans Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_trans_date']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Effective Week">
+                  <th mat-header-cell *matHeaderCellDef> Effective Week </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_week']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Effective Qrtr">
+                  <th mat-header-cell *matHeaderCellDef> Effective Qrtr </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_qrtr']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Currency Multiplier">
+                  <th mat-header-cell *matHeaderCellDef> Currency Multiplier </th>
+                  <td mat-cell *matCellDef="let element"> {{element['currency_multiplier']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="New Sales OTC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_otc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="New Sales MRC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="New Sales ARC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_rrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Upgrade OTC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_otc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Upgrade MRC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Upgrade ARC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_arc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Degarde MRC">
+                  <th mat-header-cell *matHeaderCellDef> Degarde MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['degarde_mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Degarde ARC">
+                  <th mat-header-cell *matHeaderCellDef> Degarde ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['degarde_arc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Deactivation MRC">
+                  <th mat-header-cell *matHeaderCellDef> Deactivation MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Deactivation ARC">
+                  <th mat-header-cell *matHeaderCellDef> Deactivation ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_arc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Gross ARC Added">
+                  <th mat-header-cell *matHeaderCellDef> Gross ARC Added </th>
+                  <td mat-cell *matCellDef="let element"> {{element['gross_arc_added']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="NET OTC">
+                  <th mat-header-cell *matHeaderCellDef> NET OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_otc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="NET MRC">
+                  <th mat-header-cell *matHeaderCellDef> NET MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_mrc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="NET ARC">
+                  <th mat-header-cell *matHeaderCellDef> NET ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_arc']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Company Verticals">
+                  <th mat-header-cell *matHeaderCellDef> Company Verticals </th>
+                  <td mat-cell *matCellDef="let element"> {{element['companyvertical']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Presales Name">
+                  <th mat-header-cell *matHeaderCellDef> Presales Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element['presales_name']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Remarks">
+                  <th mat-header-cell *matHeaderCellDef> Remarks </th>
+                  <td mat-cell *matCellDef="let element"> {{element['remarks']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Month">
+                  <th mat-header-cell *matHeaderCellDef> Month </th>
+                  <td mat-cell *matCellDef="let element"> {{element['month']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Ver 1">
+                  <th mat-header-cell *matHeaderCellDef> Ver 1 </th>
+                  <td mat-cell *matCellDef="let element"> {{element['ver_1']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Billing Status">
+                  <th mat-header-cell *matHeaderCellDef> Billing Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['billing_status']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Region Head">
+                  <th mat-header-cell *matHeaderCellDef> Region Head </th>
+                  <td mat-cell *matCellDef="let element"> {{element['region_head']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="National head">
+                  <th mat-header-cell *matHeaderCellDef> National head </th>
+                  <td mat-cell *matCellDef="let element"> {{element['national_head']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="BU">
+                  <th mat-header-cell *matHeaderCellDef> BU </th>
+                  <td mat-cell *matCellDef="let element"> {{element['bu']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="PM">
+                  <th mat-header-cell *matHeaderCellDef> PM </th>
+                  <td mat-cell *matCellDef="let element"> {{element['pm']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="OPF Version">
+                  <th mat-header-cell *matHeaderCellDef> OPF Version </th>
+                  <td mat-cell *matCellDef="let element"> {{element['opf_version']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Collection Status">
+                  <th mat-header-cell *matHeaderCellDef> Collection Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['collection_status']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Company ID">
+                  <th mat-header-cell *matHeaderCellDef> Company ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element['company_id']}} </td>
+                </ng-container>
+              <ng-container matColumnDef="Error">
+                  <th mat-header-cell *matHeaderCellDef> Error </th>
+                  <td mat-cell *matCellDef="let element"> {{element['error']}} </td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="tableCols;"></tr>
+              <tr mat-row *matRowDef="let row; columns: tableCols;"></tr>
+            </table>
+            <mat-paginator  [pageSizeOptions]="page.pageSizeOptions" [length]="page.limit" [pageSize]="page.pageSize"
+                (page)="PageChange($event)" showFirstLastButtons></mat-paginator>
+      </div>
+     
+    </div>
+</div>
+

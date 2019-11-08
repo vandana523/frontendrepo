@@ -1,0 +1,50 @@
+.login_form{
+width: 65%;
+margin: 0 auto;
+margin-top: 60px;
+}
+.form_login{
+background: #e8e8e8;
+/* height: 100vh; */
+}
+.form_background{
+    background-image: url('../../../assets/loginbg.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.tp_layer{
+    height: 100%;
+    background: rgba(23, 48, 90, 0.78);
+}
+
+.welcome_text h3{
+    color: #fff;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+.welcome_text{
+    padding: 20px 35px;
+}
+.login_form h2{
+    font-size: 30px;
+    margin-bottom: 65px;
+    color: rgb(36, 69, 123);
+    font-family: MTSB;
+
+}
+.form_input_container{
+    margin-bottom: 50px;
+}
+.primary_button.login_button{
+    margin-bottom: 50px;
+}
+
+
+
+
+
+
+
+

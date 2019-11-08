@@ -1,0 +1,43 @@
+.upload_statement{
+    text-align: center;
+    padding: 50px;
+    border: 1px dashed #cac3c3;
+
+}
+.upload_statement input{
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+}
+.upload_statement img{
+    width: 50px;
+
+}
+::ng-deep .mat-dialog-container{
+    padding: 0px !important;
+}
+.file_title{
+    background: rgb(36, 69, 123);
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    
+}
+.file_title img{
+    vertical-align: middle;
+    margin-right: 25px;
+}
+.file_title p{
+    display: inline-block;
+}
+.upload_container{
+    padding: 50px;
+    position: relative;
+}
+.upload_button{
+    margin-top: 15px;
+}

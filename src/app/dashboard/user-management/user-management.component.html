@@ -1,0 +1,214 @@
+<div class='innerWizard table_data'>
+    <mat-tab-group [selectedIndex]="selectedIndex_inner">
+        <mat-tab>
+            <div class="_flex_center _icon_tray">
+                <div class="left_options">
+                        <div class="_flex_center">
+                                <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Search Employee" (keyup.enter)='getEmployeeList({ page: 1, perPage: 25 })'  [(ngModel)]="search">
+                                      </mat-form-field>
+                                      <button mat-icon-button aria-label="search" class="positive ml-2" (click)='getEmployeeList({ page: 1, perPage: 25 })'>
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                        </div>
+                </div>
+                <div class="right_option">
+                    <button *ngIf='isAdmin' mat-button class="mr-2" (click)='selectedIndex_inner = 1;'>
+                        Add Employee
+                    </button>
+                    <button mat-button class="mr-2">
+                            <img src="../../../../assets/refresh.png" class="refresh" (click)='refresh()'>
+                          </button>
+                </div>
+            </div>
+
+
+            <div class="text_center" *ngIf='employeeData.length === 0'>
+                <h3>Sorry no data found</h3>
+              </div>
+            <div class="mx-2 custom_table">
+                <div class="scrollable_table" *ngIf='employeeData.length > 0'>
+                    <table class="mat-elevation-z8 " mat-table matSort [dataSource]='employeeData' (matSortChange)="sortData($event)">
+                        <ng-container matColumnDef="Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Designation">
+                            <th mat-header-cell *matHeaderCellDef>Designation </th>
+                            <td mat-cell *matCellDef="let element"> {{element['designation']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Email">
+                            <th mat-header-cell *matHeaderCellDef>Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element['email']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef>Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element['status']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="tableActions">
+
+                                    <button *ngIf='isAdmin' class="editTab_row mat-button" (click)='edit(element)'></button>
+                                    <button *ngIf='!isAdmin' class="view mat-button" (click)='edit(element)'>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="EmployeeTable;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: EmployeeTable;"></tr>
+                    </table>
+
+                </div>
+                <mat-paginator  *ngIf='employeeData.length > 0' [pageSizeOptions]="page.pageSizeOptions" [length]="page.limit" [pageSize]="page.pageSize"
+                    (page)="PageChange($event)" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <mat-card class="formcard">
+                    <div class="_flex_center _icon_tray col-12 mb-3">
+                            <div class="left_options">
+                             <span  *ngIf='isAdmin' > {{Label}}</span>  
+                             <span  *ngIf='!isAdmin' > View Details</span>  
+                            </div>
+                            <div class="right_option">
+                                <button mat-button class="mr-2" (click)='clearPresets()'>
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+                <form [formGroup]='addEmployee' autocomplete="off">
+                    <div class="col-12">
+                        <div class="row ">
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Name" formControlName="name">
+                                        <mat-error *ngIf="addEmployee.get('name').errors">
+                                            Enter name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter First Name" formControlName="firstname">
+                                        <mat-error *ngIf="addEmployee.get('firstname').errors">
+                                            Enter first name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Last Name" formControlName="lastname">
+                                        <mat-error *ngIf="addEmployee.get('lastname').errors">
+                                            Enter last name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Select Company" aria-label="Number" matInput [formControl]="search_companies" [matAutocomplete]="auto">
+                                <mat-autocomplete   autoActiveFirstOption #auto="matAutocomplete" >
+                                  <mat-option *ngFor="let option of filteredCompany | async" [value]="option.companyname">
+                                    {{option.companyname}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="email" matInput placeholder="Enter Email" formControlName="emailid">
+                                        <mat-error *ngIf="addEmployee.get('emailid').errors">
+                                            Enter valid email</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="number" matInput placeholder="Enter Phone Number" formControlName="phone">
+                                        <mat-error *ngIf="addEmployee.get('phone').errors">
+                                            Enter valid phone number</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                        <mat-form-field class="col-sm-12">
+                                                <mat-select placeholder="Select Designation" formControlName="designation">
+                                                  <mat-option *ngFor="let item of Designation" [value]="item">
+                                                    {{item}}
+                                                  </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="addEmployee.get('designation').errors">Select Designation</mat-error>
+                                              </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="w100p">
+                                            <input type="text" matInput placeholder="Enter Reporting to" formControlName="reportingto">
+                                            <mat-error *ngIf="addEmployee.get('reportingto').errors">
+                                                This feild is required</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="w100p">
+                                            <input type="text" matInput placeholder="Enter Department" formControlName="department">
+                                            <mat-error *ngIf="addEmployee.get('department').errors">
+                                                Enter D=department</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="w100p">
+                                            <input type="text" matInput placeholder="Enter Region" formControlName="region">
+                                            <mat-error *ngIf="addEmployee.get('region').errors">
+                                                Enter region</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                        <div class="form_input_container">
+                                                <mat-form-field class="col-sm-12">
+                                                        <mat-select placeholder="Select Status" formControlName="status">
+                                                          <mat-option *ngFor="let item of ActiveStatuses" [value]="item">
+                                                            {{item}}
+                                                          </mat-option>
+                                                        </mat-select>
+                                                        <mat-error *ngIf="addEmployee.get('status').errors">Select Status</mat-error>
+                                                      </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                            <div class="form_input_container">
+                                                <mat-form-field class="w100p">
+                                                    <input type="text" matInput placeholder="Enter Password" formControlName="password">
+                                                    <mat-error *ngIf="addEmployee.get('password').errors">
+                                                        Enter Password</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                     
+                        </div>
+                    </div>
+                </form>
+                <div class="col-12 text-right"  *ngIf='isAdmin' >
+                        <button mat-button class="positive" (click)='AddEmployee()'>{{Label}}</button>
+                    </div>
+            </mat-card>
+
+
+
+        </mat-tab>
+    </mat-tab-group>
+</div>
+

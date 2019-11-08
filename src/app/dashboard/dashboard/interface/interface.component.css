@@ -1,0 +1,64 @@
+.scrollable_table{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.company_otc_mrc .mat-card-header .mat-card-title{
+font-size: 15px;
+
+}
+::ng-deep .company_otc_mrc .mat-card-header-text{
+margin: 0px;
+}
+.company_otc_mrc .mat-card{
+    padding: 0px !important;
+}
+::ng-deep .mat-tab-labels{
+    display: none !important;
+}
+.filters_applied > p{
+    margin-bottom: 3px;
+    color: #24457b;
+    font-size: 15px;
+    font-weight: 600;
+}
+.filters_applied{
+    margin-bottom: 5px;
+}
+.search_header{
+    color: #24457b
+}
+.child_company{
+    margin-top: 10px;
+    border-bottom: 1px dashed #e0d8d8;
+    padding-bottom: 18px;
+    margin-left: 36px;
+}
+.customToggler .mat-expansion-panel-header-description{
+    margin-right: 0px !important;
+    justify-content: flex-end;
+}
+.icon_span{
+    
+    font-weight: 600;
+ 
+}
+.customToggler .mat-expansion-panel-header[aria-disabled=true]{
+    color: unset !important;
+}
+.clickable_text > p{
+    margin-bottom: 5px;
+}
+.customToggler{
+    padding: 6px 0px;
+}
+.icon_wrap{
+    width: 21px;
+    margin-right: 15px;
+}
+.icon_span img{
+    width: 100%;
+}
+.customToggler .mat-expansion-panel-header-title{
+align-items: center;
+}

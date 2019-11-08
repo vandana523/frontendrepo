@@ -1,0 +1,6 @@
+.tableActions{
+    justify-content: unset !important;
+}
+::ng-deep .mat-tab-labels{
+    display: none !important;
+}

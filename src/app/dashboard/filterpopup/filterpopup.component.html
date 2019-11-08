@@ -1,0 +1,129 @@
+<div class="dialog_header">
+        <span class="mat-dialog-title"> Company Filters</span>
+           
+            
+            <div class="dialog_close">
+                <img src="../../../assets/close.png" (click)="dialogRef.close()">
+            </div>
+</div>
+<mat-dialog-content class="main_filter ">
+    <div class="row   p-3 filter_Array m-0">
+     
+          <div class="col-sm-6">
+              <div class="text-center">
+                <h5>Company Level</h5>
+              </div>
+                <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="Search company" aria-label="Number" matInput [formControl]="search_companies" [matAutocomplete]="auto">
+                              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredCompany | async" [value]="option.companyname">
+                                  {{option.companyname}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+            <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="Search Programme Manager" matInput [formControl]="search_programManagers" [matAutocomplete]="auto2">
+                              <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredPgmgr | async" [value]="option.programManager">
+                                  {{option.programManager}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+            <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="Search Account Manager" matInput [formControl]="search_accountManagers" [matAutocomplete]="auto3">
+                              <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredAcmgr | async" [value]="option.accountManagers">
+                                  {{option.accountManagers}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+            <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="Search Regional Manager" matInput [formControl]="search_regionalManagers" [matAutocomplete]="auto4">
+                              <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredRgmgr | async" [value]="option.regionalManagers">
+                                  {{option.regionalManagers}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+  
+            <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="Search bu" matInput [formControl]="search_bu" [matAutocomplete]="auto6">
+                              <mat-autocomplete autoActiveFirstOption #auto6="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredbu | async" [value]="option.bu">
+                                  {{option.bu}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+            <div class='filter_single'>
+                    <form >
+                            <mat-form-field class="example-full-width">
+                              <input type="text" placeholder="search National Head" matInput [formControl]="search_natHead" [matAutocomplete]="auto7">
+                              <mat-autocomplete autoActiveFirstOption #auto7="matAutocomplete" >
+                                <mat-option *ngFor="let option of filteredNatHead | async" [value]="option.name">
+                                  {{option.name}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
+            </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="text-center">
+                    <h5>OPF Level</h5>
+                  </div>
+                  <div class='filter_single'>
+                      <form >
+                              <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Search Regions" matInput [formControl]="search_regions" [matAutocomplete]="auto8">
+                                <mat-autocomplete autoActiveFirstOption #auto8="matAutocomplete" >
+                                  <mat-option *ngFor="let option of filteredRegion | async" [value]="option.region">
+                                    {{option.region}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </form>
+              </div>
+                  <div class='filter_single'>
+                      <form >
+                              <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Search Verticals" matInput [formControl]="search_vertical" [matAutocomplete]="auto9">
+                                <mat-autocomplete autoActiveFirstOption #auto9="matAutocomplete" >
+                                  <mat-option *ngFor="let option of filteredVerticals | async" [value]="option.vertical">
+                                    {{option.vertical}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </form>
+              </div>
+            </div>
+ 
+   
+    
+
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="p-3 min-height110" >
+  <button mat-button class="cancel" (click)="dialogRef.close()">Cancel</button>
+  <button class="positive" mat-button (click) = 'applyFilters()'>Apply Filter</button>
+</mat-dialog-actions>

@@ -1,0 +1,26 @@
+.side_nav
+{
+    list-style: none;
+ background: rgb(36, 69, 123);
+    padding: 0;
+    color: #fff;
+    height: 100%;
+    margin: 0pc;
+
+}
+.side_nav li{
+    padding: 10px;
+    border-top: 0px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.icon{
+    width: 28px;
+    margin-right: 10px;
+}
+.icon img{
+    width: 100%;
+}
+.side_nav .active{
+    font-family: MTSB;
+}

@@ -1,0 +1,28 @@
+<div class="dialog_header">
+    <span class="mat-dialog-title"> Move to company</span>
+       
+        
+        <div class="dialog_close">
+            <img src="../../../assets/close.png" (click)="dialogRef.close()">
+        </div>
+</div>
+<div mat-dialog-content>
+<div class="row   p-3 filter_Array m-0">
+    <div class='col-12'>
+            <form >
+                    <mat-form-field class="w-100">
+                      <input type="text" placeholder="Search company" aria-label="Number" matInput [formControl]="search_companies" [matAutocomplete]="auto">
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='setCompanyId($event)' >
+                        <mat-option *ngFor="let option of filteredCompany | async" [value]="option">
+                          {{option.companyname}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </form>
+    </div>
+    </div>
+    </div>
+    <div mat-dialog-actions align="end" class="p-2">
+        <button mat-button class="cancel" (click)="dialogRef.close()">cancel</button>
+        <button class="positive" mat-button (click) = 'mergeCompany()'>Merge</button>
+      </div>

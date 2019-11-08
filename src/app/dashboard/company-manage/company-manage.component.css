@@ -1,0 +1,10 @@
+hr{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 0;
+    border-top: 1px dashed rgba(160, 151, 151, 0.88);
+}
+
+.formsingles{
+    margin-bottom: 15px;
+}

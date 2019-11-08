@@ -1,0 +1,260 @@
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* You can add global styles to this file, and also import other style files */
+
+@font-face{
+  font-family: MTT;
+  src:url(./assets/fonts/Montserrat-Thin.ttf);
+  
+    }
+@font-face{
+  font-family: MTSB;
+  src:url(./assets/fonts/Montserrat-SemiBold.ttf)
+  
+    }
+    .refresh{
+      width: 20px;
+  }
+
+    input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #e8e8e8 inset !important;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: MTT;
+}
+input:-webkit-autofill {
+  background-color: transparent !important;
+}
+.bg_color{
+    background: #000046;
+  background: -webkit-linear-gradient( right, #2684e4, #1774e8); 
+  background: linear-gradient(to right, #2684e4, #1774e8);
+  height: 100vh;
+}
+._flex_center ,.dialog_header{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+}
+.flex{
+  display: flex;
+}
+.w50p{
+  width: 50%;
+}
+.w100p{
+  width: 100%;
+}
+.text_right{
+  text-align: right;  
+}
+
+.primary_button button{
+  background: rgb(36, 69, 123);
+  color: #ffffff;
+  padding: 2px 30px;
+  font-size: 15x;
+}
+
+.table_data{margin: 20px;}
+.uploader{
+    margin-bottom: 20px;
+}
+
+.RED_BACKGROUND {
+  background: red;
+  text-align: center !important;
+}
+
+.GREEN {
+  background: green;
+  text-align: center !important;
+}
+.custom_table .mat-row {
+  height: auto !important;
+}
+
+
+table.mat-elevation-z8 {
+  width: 100%;
+  box-shadow: none;
+}
+.custom_table  th.mat-header-cell  , .custom_table .mat-cell{
+  text-align: left;
+  padding: 10px !important;
+  border: 1px solid #e5ddddc7
+}
+
+  .scrollable_table th.mat-header-cell {
+    width: 185px;
+    white-space: nowrap;
+}
+.scrollable_table{
+  overflow-y: scroll;
+  height: 500px;
+  border: 1px solid #eee;
+}
+.text_center{
+  text-align: center;
+}
+.w20p{
+width: 20%;
+}
+.w80p{
+width: 80%;
+}
+._icon_tray{
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+}
+._icon_tray button{
+  border: 1px solid #eee;
+}
+.custom_mat_header{
+  background: #24457b;
+  color: #ffffff;
+  padding: 10px;
+  
+}
+.custom_mat_header .mat-card-title {
+  white-space: nowrap; 
+  width:180px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+ 
+}
+.custom_mat_card{
+  margin-bottom: 10px;
+}
+.custom_mat_card .mat-card-content{
+  padding: 10px !important;
+}
+.dialog_close img{
+  width: 15px;
+}
+
+.dialog_header{
+  justify-content: space-between;
+  background: #24457b;
+  color: #ffffff;
+  padding: 10px;
+}
+.mat-dialog-container{
+  padding: 0px !important;
+}
+.dialog_header .mat-dialog-title{
+  margin-bottom: 0pc !important; 
+}
+
+.cancel{
+  border: 1px solid #eee !important;
+}
+.positive{
+  background: rgb(36, 69, 123);
+  color: #ffffff !important;
+  padding: 2px 30px;
+}
+.positive:disabled{
+  cursor: no-drop;
+  background: rgb(41, 44, 48);
+}
+.mat-dialog-content{
+margin: 0px !important;
+padding: 0px !important;
+}
+.innerWizard .mat-tab-label-container, .innerWizard .mat-tab-header {
+  display: none;
+}
+.clickable_text:hover{
+  color: rgb(36, 69, 123);
+  transition: 0.5s all;
+  /* transform: scale(1.02); */
+}
+.tableActions .editTab_row {
+  background: url('./assets/editPencil.svg');
+  background-size: 100% 100%;
+  min-width: 20px;
+  height: 17px;
+  padding: 0pc;
+}
+.tableActions .save{
+  background: url('./assets/save.png');
+  background-size: 100% 100%;
+  min-width: 21px;
+  height: 20px;
+  padding: 0pc;
+}
+.tableActions .subs{
+  background: url('./assets/subs.svg');
+  background-size: 100% 100%;
+  min-width: 21px;
+  height: 20px;
+  padding: 0pc;
+}
+.tableActions .cancelEdit{
+  background: url('./assets/cancelrow.png');
+  background-size: 100% 100%;
+  min-width: 21px;
+  height: 20px;
+  padding: 0pc;
+}
+.tableActions .deleteRow{
+  background: url('./assets/delete.png');
+  background-size: 100% 100%;
+  min-width: 21px;
+  height: 20px;
+  padding: 0pc;
+}
+.tableActions .view{
+  background: url('./assets/view.png');
+  background-size: 100% 100%;
+  min-width: 21px;
+  height: 20px;
+  padding: 0pc;
+}
+.tableActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+
+}
+.tableActions  button{
+  margin-right: 10px;
+}
+.h500px{
+  height: 500px;
+  overflow-y: auto;
+}
+.pointer{
+  cursor: pointer;
+}
+.mat-tab-header{
+  border-bottom: none !important;
+}
+.formcard{
+  border: 1px solid #eee;;
+}
+.form_input_container {
+  font-size: 14px;
+}
+.oneIcon{
+  display: block;
+  text-align: center;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: rgb(0, 0, 0);
+}
+.custom_table th.mat-header-cell{
+ 
+  color: #24457b;
+  font-size: 15px;
+  font-weight: 600;
+}

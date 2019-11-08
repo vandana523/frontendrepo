@@ -1,0 +1,25 @@
+
+  <div class="file_title ">
+        <img src="assets/upload_icon.png"><p>Upload your file</p>
+    </div>
+<mat-dialog-content>
+  
+<div class="upload_container">
+    <div class="upload_statement">
+        <input type="file" [formControl]='file' (change)="upload($event)">
+        <img src="../../../assets/file.png">
+        <h4 *ngIf='!filename'>Drag and drop you file here</h4>
+        <h4 *ngIf='!filename'>or Click here to Browse</h4>
+        <h4 *ngIf='filename'>{{filename}}</h4>
+        <h4 *ngIf='filename'>Click here to change</h4>
+
+    </div>
+
+        <div class="text_center primary_button upload_button">
+            <button mat-raised-button (click)='StartUpload()'>Upload</button>
+        </div>
+
+</div>
+
+
+</mat-dialog-content>

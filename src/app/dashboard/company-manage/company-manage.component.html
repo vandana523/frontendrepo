@@ -1,0 +1,485 @@
+<div class='innerWizard table_data'>
+    <mat-tab-group [selectedIndex]="selectedIndex_inner">
+        <mat-tab>
+            <div class="_flex_center _icon_tray">
+                <div class="left_options">
+                        <div class="_flex_center">
+                                <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Search Company" (keyup.enter)='getCompanies({ page: 1, perPage: 25 })'  [(ngModel)]="search">
+                                      </mat-form-field>
+                                      <button mat-icon-button aria-label="search" class="positive ml-2" (click)='getCompanies({ page: 1, perPage: 25 })'>
+                                              <mat-icon>search</mat-icon>
+                                            </button>
+                        </div>
+                </div>
+                <div class="right_option">
+                    <button *ngIf='isAdmin' mat-button class="mr-2" (click)='selectedIndex_inner = 1;'>
+                        Add Company
+                    </button>
+                    <button mat-button class="mr-2" (click)='refresh()'>
+                            <img src="../../../../assets/refresh.png" class="refresh" >
+                          </button>
+                </div>
+            </div>
+
+            <div class="text_center" *ngIf='Summarycompanies.length === 0'>
+                <h3>Sorry no data found</h3>
+              </div>
+            <div class="mx-2 custom_table">
+                <div class="scrollable_table" *ngIf='Summarycompanies.length > 0'>
+                    <table class="mat-elevation-z8 " mat-table matSort [dataSource]='Summarycompanies' (matSortChange)="sortData($event)">
+                        <ng-container matColumnDef="Companyname">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.companyname}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Company ID">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Company ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.companyid}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Company Region">
+                            <th mat-header-cell *matHeaderCellDef>Company Region </th>
+                            <td mat-cell *matCellDef="let element"> {{element['companyregion']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Company Vertical">
+                            <th mat-header-cell *matHeaderCellDef>Company Vertical </th>
+                            <td mat-cell *matCellDef="let element"> {{element['companyvertical']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Registration Date">
+                            <th mat-header-cell *matHeaderCellDef>Registration Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element['registrationdate'] }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef>Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element['status']}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="tableActions">
+
+                                    <button *ngIf='isAdmin' class="editTab_row mat-button" (click)='edit(element)'>
+                                    </button>
+                                    <button *ngIf='!isAdmin' class="view mat-button" (click)='edit(element)'></button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="CompanyTable;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: CompanyTable;"></tr>
+                    </table>
+
+                </div>
+                <mat-paginator *ngIf='Summarycompanies.length > 0' [pageSizeOptions]="page.pageSizeOptions" [length]="page.limit" [pageSize]="page.pageSize"
+                    (page)="PageChange($event)" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <mat-card class="formcard">
+                <div class="_flex_center _icon_tray col-12 mb-3">
+                        <div class="left_options">
+                           <span *ngIf='isAdmin' >{{label}}</span>
+                           <span *ngIf='!isAdmin'>View Data</span>
+                        </div>
+                        <div class="right_option">
+                            <button mat-button class="mr-2" (click)='clearPresets()'>
+                                Back
+                            </button>
+                        </div>
+                    </div>
+            <form [formGroup]='addCompany' autocomplete="off">
+                <div class="col-12">
+                    <div class="row ">
+
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="w100p">
+                                            <input type="text" matInput placeholder="Enter Company Name" formControlName="companyname">
+                                            <mat-error *ngIf="addCompany.get('companyname').errors">
+                                                Enter company name</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="w100p">
+                                            <input type="number" matInput placeholder="Enter Company ID" formControlName="companyid">
+                                            <mat-error *ngIf="addCompany.get('companyid').errors">
+                                                Enter company ID</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search Parent Company" matInput [formControl]="search_parentcompanies"
+                                             [matAutocomplete]="auto1"
+                                              (change)='ValidateList("parentCompanies" , "companyname", search_parentcompanies )'>
+                                            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredParentcompany | async" [value]="option.companyname">
+                                                {{option.companyname}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_parentcompanies.errors">
+                                                Enter a valid parent company</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                      
+                                    
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search Account Manager" matInput [formControl]="search_accountManagers" (change)='ValidateList("accountManagers" , "accountManagers", search_accountManagers )' [matAutocomplete]="auto3">
+                                            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredAcmgr | async" [value]="option.accountManagers">
+                                                {{option.accountManagers}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_accountManagers.errors">
+                                                Enter a valid account manager</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                      
+                                    
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search Regional Manager" matInput [formControl]="search_regionalManagers" (change)='ValidateList("regionalManagers" , "regionalManagers", search_regionalManagers )' [matAutocomplete]="auto4">
+                                            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredRgmgr | async" [value]="option.regionalManagers">
+                                                {{option.regionalManagers}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_regionalManagers.errors">
+                                                Enter a valid regional manager</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                      
+                                    
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search National Head" matInput [formControl]="search_natHead" [matAutocomplete]="auto7" (change)='ValidateList("nationalHeads" , "nationalHead", search_natHead )'>
+                                            <mat-autocomplete autoActiveFirstOption #auto7="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredNatHead | async" [value]="option.nationalHead">
+                                                {{option.nationalHead}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_natHead.errors">
+                                                Enter a valid national head</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                      
+                                    
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search Programme Manager" matInput [formControl]="search_programManagers" [matAutocomplete]="auto2" (change)='ValidateList("programManagers" , "programManager", search_programManagers )'>
+                                            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredPgmgr | async" [value]="option.programManager">
+                                                {{option.programManager}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_programManagers.errors">
+                                                Enter a valid program manager</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                    <div class="form_input_container">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Search Business Head" matInput [formControl]="search_businessHead" [matAutocomplete]="auto9" (change)='ValidateList("businessHead" , "businessHead", search_businessHead )'>
+                                            <mat-autocomplete autoActiveFirstOption #auto9="matAutocomplete" >
+                                              <mat-option *ngFor="let option of filteredBusinessHead | async" [value]="option.businessHead">
+                                                {{option.businessHead}}
+                                              </mat-option>
+                                            </mat-autocomplete>
+                                            <mat-error *ngIf="search_businessHead.errors">
+                                                Enter a valid business head</mat-error>
+                                          </mat-form-field>
+                                          </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row ">
+ 
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                <mat-form-field class="w100p">
+                                    <input matInput [matDatepicker]="picker" placeholder="Choose Registration Date" formControlName="registrationdate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" placeholder="Search Regions" matInput [formControl]="search_regions" (change)='ValidateList("regions" , "region", search_regions )' [matAutocomplete]="auto8">
+                                    <mat-autocomplete autoActiveFirstOption #auto8="matAutocomplete" >
+                                      <mat-option *ngFor="let option of filteredRegion | async" [value]="option.region">
+                                        {{option.region}}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error *ngIf="search_regions.errors">
+                                        Enter a valid company region</mat-error>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                <mat-form-field class="w100p">
+                                    <input type="text" matInput placeholder="Enter Company Address" formControlName="companyaddress">
+                                    <mat-error *ngIf="addCompany.get('companyaddress').errors">
+                                        Enter company address</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Select Company" aria-label="Number" matInput [formControl]="search_companies" [matAutocomplete]="auto">
+                            <mat-autocomplete   autoActiveFirstOption #auto="matAutocomplete" >
+                              <mat-option *ngFor="let option of filteredCompany | async" [value]="option.companyname">
+                                {{option.companyname}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field> -->
+
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                <mat-form-field class="w100p">
+                                    <input type="test" matInput placeholder="Enter Company City" formControlName="companycity">
+                                    <mat-error *ngIf="addCompany.get('companycity').errors">
+                                        Enter company city</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                <mat-form-field class="w100p">
+                                    <input type="text" matInput placeholder="Enter Company State" formControlName="companystate">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                            <div class="form_input_container">
+                                    <mat-form-field class="col-sm-12">
+                                            <mat-select placeholder="Select Designation" formControlName="designation">
+                                              <mat-option *ngFor="let item of Designation" [value]="item">
+                                                {{item}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="addCompany.get('designation').errors">Select Designation</mat-error>
+                                          </mat-form-field>
+                            </div>
+                        </div> -->
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Company Country" formControlName="companycountry">
+                                        <mat-error *ngIf="addCompany.get('companycountry').errors">
+                                            Enter company country</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Zipcode" formControlName="zipcode">
+                                        <mat-error *ngIf="addCompany.get('zipcode').errors">
+                                            Enter zipcode</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Search Verticals" matInput [formControl]="search_vertical" (change)='ValidateList("verticals" , "vertical", search_vertical )'  [matAutocomplete]="auto10">
+                                        <mat-autocomplete autoActiveFirstOption #auto10="matAutocomplete" >
+                                          <mat-option *ngFor="let option of filteredVerticals | async" [value]="option.vertical">
+                                            {{option.vertical}}
+                                          </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error *ngIf="search_vertical.errors">
+                                            Enter a valid vertical</mat-error>
+                                      </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Technical Name" formControlName="technical_name">
+                                        <mat-error *ngIf="addCompany.get('technical_name').errors">
+                                            Enter technical name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Technical Email" formControlName="technical_email">
+                                        <mat-error *ngIf="addCompany.get('technical_email').errors">
+                                            Enter valid email</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="number" matInput placeholder="Enter Technical Mobile" formControlName="technical_mobile">
+                                        <mat-error *ngIf="addCompany.get('technical_mobile').errors">
+                                            Enter valid  mobile number</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="number" matInput placeholder="Enter Technical Landline" formControlName="technical_landline">
+                                        <mat-error *ngIf="addCompany.get('technical_landline').errors">
+                                            Enter valid  landline number</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Technical Ext" formControlName="technical_ext">   
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Account Name" formControlName="accounts_name">   
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Account Email" formControlName="accounts_email">   
+                                        <mat-error *ngIf="addCompany.get('accounts_email').errors">Enter valid Email</mat-error>
+                                    </mat-form-field>
+                                   
+                                </div>
+                            </div>
+                          
+  
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="number" matInput placeholder="Enter Accounts Mobile Number " formControlName="accounts_mobile">   
+                                        <mat-error *ngIf="addCompany.get('accounts_mobile').errors">Enter valid mobile number</mat-error>
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Accounts Landline Number " formControlName="accounts_landline">   
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Management Name" formControlName="management_name">   
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Management Email" formControlName="management_email">   
+                                        <mat-error *ngIf="addCompany.get('management_email').errors">Enter valid  Email</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Management Mobile Number " formControlName="management_mobile">   
+                                        <mat-error *ngIf="addCompany.get('management_email').errors">Enter valid  Email</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Management Landline Number " formControlName="management_landline">   
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter Management Ext " formControlName="management_ext">   
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter PAN Number " formControlName="pannumber">   
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <input type="text" matInput placeholder="Enter GST " formControlName="gst">   
+                                    </mat-form-field>
+                                  
+                                </div>
+                            </div>
+               
+                            <div class="col-sm-3 col-xs-12 col-md-3 col-lg-3 col-xl-3 formsingles">
+                                <div class="form_input_container">
+                                    <mat-form-field class="w100p">
+                                        <mat-select placeholder="Select Status" formControlName="status">
+                                          <mat-option *ngFor="let item of ActiveStatuses" [value]="item">
+                                            {{item}}
+                                          </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="addCompany.get('status').errors">Select status</mat-error>
+                                      </mat-form-field>
+                                      </div>
+                            </div>
+                    </div>
+                </div>
+            </form>
+           
+        </mat-card>
+        <mat-card class="formcard">
+
+            <div class="col-12">
+                <div class="row ">
+
+          
+</div>
+</div>
+
+<div class="col-12 text-right" *ngIf='isAdmin'>
+    <button mat-button class="positive" (click)='updateCompany()'>{{label}}</button>
+</div>
+        </mat-card>
+
+
+
+
+
+        </mat-tab>
+        </mat-tab-group>
+        </div>

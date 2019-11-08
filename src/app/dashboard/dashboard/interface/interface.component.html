@@ -1,0 +1,492 @@
+<mat-tab-group>
+  <mat-tab>
+    <div class="table_data">
+
+
+      <div class='innerWizard'>
+        <mat-tab-group [selectedIndex]="selectedIndex_inner">
+          <mat-tab>
+            <div class="_flex_center _icon_tray">
+              <div class="left_options">
+                <div class="option">
+
+                </div>
+              </div>
+
+              <div class="right_option">
+                <button mat-button class="mr-2">
+                  <img src="../../../../assets/refresh.png" class="refresh" (click)='refresh()'>
+                </button>
+                <button mat-button (click)='openFilter()'>Filters</button>
+              </div>
+
+
+
+            </div>
+            <div class="row mb-4" *ngIf='filterEnabled'>
+              <div class="col-12 search_header">
+                <p>Search results for</p>
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='company'>
+                <p>Company : </p>{{company}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='programManager'>
+                <p>Program Manager : </p>{{programManager}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='accountManager'>
+                <p>Account Manager : </p>{{accountManager}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='reginalManager'>
+                <p>Regional Manager : </p>{{reginalManager}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='region'>
+                <p>region : </p>{{region}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='selected_bu'>
+                <p> bu : </p>{{selected_bu}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='nationalHead'>
+                <p> National Head : </p>{{nationalHead}}
+              </div>
+              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 filters_applied" *ngIf='selected_vertical'>
+                <p> Vertical : </p>{{selected_vertical}}
+              </div>
+            </div>
+            <div class="row" *ngIf='otc_mrc.length > 0'>
+              <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12 company_otc_mrc custom_mat_card">
+                <!-- <mat-card  >
+                                <mat-card-header class="custom_mat_header">
+                                  <mat-card-title>{{item.company}}</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                  <p>
+                                   MRC : <span>{{item.mrc}}</span>
+                                  </p>
+                                  <p>
+                                   OTC : <span>{{item.otc}}</span>
+                                  </p>
+                                </mat-card-content>
+                              </mat-card> -->
+                <!-- <mat-accordion>
+                  <mat-expansion-panel hideToggle="true"  #i class="customToggler" [disabled]='!item["childCompany"].length'>
+                    <mat-expansion-panel-header>
+                        <mat-panel-description >
+
+                          
+    
+    
+                          </mat-panel-description>
+                      <mat-panel-title>
+                        <span class="icon_wrap" ><span class="icon_span" *ngIf="!i.expanded && item['childCompany'].length"> <img src="../../../../assets/add.png"> </span> <span class="icon_span" *ngIf="i.expanded && item['childCompany'].length"> <img src="../../../../assets/minus.png"></span></span>
+                        <span class="clickable_text" (click)='$event.stopPropagation();fetchInterface(item.company)'>
+                            <p>{{item.company}}</p> 
+                            <p> [MRC : {{item.mrc}} , OTC : {{item.otc}}  National Head : {{item.nationalHead}} , Regional Head : {{item.regionalHead}}, Account Manager : {{item.AccountManager}}]</p>
+                        </span>
+
+                      </mat-panel-title>
+                 
+                    </mat-expansion-panel-header>
+
+
+                    <span *ngIf='item["childCompany"]'>
+                      <div *ngFor='let child of item["childCompany"]'
+                        (click)='$event.stopPropagation();fetchInterface(child.company)'
+                        class="clickable_text child_company">
+                        <p>{{child.company}}</p> 
+                       <p> [MRC : {{child.mrc}} , OTC : {{child.otc}}  National Head : {{child.nationalHead}} , Regional Head : {{child.regionalHead}}, Account Manager : {{child.AccountManager}}]</p>
+                      </div>
+
+
+                    </span>
+
+
+
+
+                  </mat-expansion-panel>
+                </mat-accordion> -->
+             
+                <div class="mx-2 custom_table">
+                  <div class="scrollable_table" *ngIf='otc_mrc.length > 0'>
+                      <table class="mat-elevation-z8 " mat-table matSort [dataSource]='otc_mrc' >
+                          <ng-container matColumnDef="Company Name">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+                              <td mat-cell *matCellDef="let element" class="pointer clickable_text" (click)='fetchInterface(element.company)'> {{element.company}}
+                              </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="MRC">
+                              <th mat-header-cell *matHeaderCellDef>MRC </th>
+                              <td mat-cell *matCellDef="let element"> {{element['mrc']}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="OTC">
+                              <th mat-header-cell *matHeaderCellDef>OTC </th>
+                              <td mat-cell *matCellDef="let element"> {{element['otc']}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="National Head">
+                              <th mat-header-cell *matHeaderCellDef>National Head </th>
+                              <td mat-cell *matCellDef="let element"> {{element['nationalHead']}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Regional Head">
+                              <th mat-header-cell *matHeaderCellDef>Regional Head </th>
+                              <td mat-cell *matCellDef="let element"> {{element['regionalHead']}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Account Manager">
+                              <th mat-header-cell *matHeaderCellDef>Account Manager </th>
+                              <td mat-cell *matCellDef="let element"> {{element['AccountManager']}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Action" >
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+                              <td mat-cell *matCellDef="let element">
+                                  <div class="tableActions oneIcon text-center" *ngIf='element["childCompany"].length'>
+  
+                                      <button class="subs mat-button" label='view child companies' (click)='openChilds(element)'>
+                                      </button>
+                                  </div>
+                              </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="InterFaceTable sticky: true" ></tr>
+                          <tr mat-row *matRowDef="let row; columns: InterFaceTable;"></tr>
+                      </table>
+  
+                  </div>
+
+              </div>
+             
+              </div>
+
+
+            </div>
+            <div class="text_center" *ngIf='otc_mrc.length === 0'>
+              <h3>Sorry no data found</h3>
+            </div>
+            <mat-paginator *ngIf='otc_mrc.length > 0' [pageSizeOptions]="CompanyPage.pageSizeOptions"
+              [length]="CompanyPage.limit" [pageSize]="CompanyPage.pageSize" (page)="CompanyPageChange($event)"
+              showFirstLastButtons></mat-paginator>
+          </mat-tab>
+          <mat-tab>
+            <div class="_flex_center _icon_tray">
+              <div class="left_options">
+                <div class="option">
+                  {{searching_Comapny}}
+                </div>
+              </div>
+
+              <div class="right_option">
+                <button mat-button class="cancel mr-2" (click)='destroyObj()'>
+                  Back
+                </button>
+                <button mat-button *ngIf='isAdmin' class="positive" (click)='openMerge()' [disabled]="selection.selected.length == 0">
+                  Move to company
+                </button>
+                <button *ngIf='isAdmin' mat-button class="positive" (click)='delete()' [disabled]="selection.selected.length == 0">
+                  Delete
+                </button>
+              </div>
+
+
+
+            </div>
+            <div class="custom_table  mat-elevation-z8 scrollable_table" *ngIf='tableData.length > 0'>
+              <table class="mat-elevation-z8 " mat-table matSort [dataSource]='tableData' (scroll)="scrollEve($event)">
+
+                <ng-container matColumnDef="Select" sticky *ngIf='isAdmin'>
+                  <th class=" text-center" mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                  </th>
+                  <td class=" text-center" mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="row.checkbox = $event.checked;$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="OPF No">
+                  <th mat-header-cell *matHeaderCellDef> OPF No </th>
+                  <td mat-cell *matCellDef="let element"> {{element.opf_no}} {{element.middlename}} {{element.lastname}}
+                  </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Action" sticky *ngIf='isAdmin'>
+                  <th mat-header-cell *matHeaderCellDef>Action </th>
+                  <td mat-cell *matCellDef="let element ; let i = index">
+                    <div class="tableActions">
+
+                      <button *ngIf='!edit[i]' class="editTab_row mat-button" (click)='enableEdit(i, element)'>
+
+                      </button>
+                      <button *ngIf='element["double_entry"] === 1' class="deleteRow mat-button"
+                        (click)='enableEdit(i, element)'>
+
+                      </button>
+                      <button *ngIf='edit[i]' (click)='save(i)' class="save mat-button">
+
+                      </button>
+                      <button *ngIf='edit[i]' (click)='edit[i] = 0' class="cancelEdit mat-button">
+
+                      </button>
+
+                    </div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="OPF Date">
+                  <th mat-header-cell *matHeaderCellDef>OPF Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.opf_date}} </td>
+                </ng-container>
+                <ng-container matColumnDef="ACCNT Manager">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ACCNT Manager </th>
+                  <td mat-cell *matCellDef="let element"> {{element.accnt_mgr}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Raised ACCNT Manager">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Raised ACCNT Manager</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.raised_accnt_mgr}} </td>
+                </ng-container>
+                <ng-container matColumnDef="EMP Status">
+                  <th mat-header-cell *matHeaderCellDef> EMP Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.emp_status}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Company">
+                  <th mat-header-cell *matHeaderCellDef> Company </th>
+                  <td mat-cell *matCellDef="let element"> {{element['company']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Product Size">
+                  <th mat-header-cell *matHeaderCellDef> Product Size </th>
+                  <td mat-cell *matCellDef="let element"> {{element['product_size']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Services">
+                  <th mat-header-cell *matHeaderCellDef> Services </th>
+                  <td mat-cell *matCellDef="let element"> {{element['services']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Vertical">
+                  <th mat-header-cell *matHeaderCellDef> Vertical </th>
+                  <td mat-cell *matCellDef="let element"> {{element['vertical']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Business Type">
+                  <th mat-header-cell *matHeaderCellDef> Business Type </th>
+                  <td mat-cell *matCellDef="let element"> {{element['business_type']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Region(Current AM)">
+                  <th mat-header-cell *matHeaderCellDef>Region(Current AM) </th>
+                  <td mat-cell *matCellDef="let element"> {{element['region_current_am']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Region(Raised AM)">
+                  <th mat-header-cell *matHeaderCellDef>Region(Raised AM) </th>
+                  <td mat-cell *matCellDef="let element"> {{element['region_raised_am']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='Order Type'>
+                  <th mat-header-cell *matHeaderCellDef>Order Type</th>
+                  <td mat-cell *matCellDef="let element"> {{element['order_type']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='OTC'>
+                  <th mat-header-cell *matHeaderCellDef>OTC</th>
+                  <td mat-cell *matCellDef="let element"> {{element['otc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='OTC Multiplier'>
+                  <th mat-header-cell *matHeaderCellDef>OTC Multiplier</th>
+                  <td mat-cell *matCellDef="let element"> {{element['otc_multiplier']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='MRC'>
+                  <th mat-header-cell *matHeaderCellDef>MRC</th>
+                  <td mat-cell *matCellDef="let element"> {{element['mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='Currency'>
+                  <th mat-header-cell *matHeaderCellDef>Currency</th>
+                  <td mat-cell *matCellDef="let element"> {{element['currency']}} </td>
+                </ng-container>
+                <ng-container matColumnDef='Deactivation Raised Date'>
+                  <th mat-header-cell *matHeaderCellDef>Deactivation Raised Date</th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_raised_date']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Deactivation Date">
+                  <th mat-header-cell *matHeaderCellDef>Deactivation Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_date'] }} </td>
+                </ng-container>
+                <ng-container matColumnDef="Approval Status">
+                  <th mat-header-cell *matHeaderCellDef> Approval Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_date'] }} </td>
+                </ng-container>
+                <ng-container matColumnDef="Order Status">
+                  <th mat-header-cell *matHeaderCellDef> Order Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['order_status']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Effective Acc Mngr">
+                  <th mat-header-cell *matHeaderCellDef> Effective Acc Mngr </th>
+                  <td mat-cell *matCellDef="let element ; let i = index">
+                    <mat-form-field *ngIf="(edit[i] && edit[i] === 1)">
+                      <input type="text" matInput [(ngModel)]="editeffective_acc_mngr[i]">
+                    </mat-form-field>
+                    <span *ngIf="!edit[i] || (edit[i] && edit[i] === 0)">
+                      {{element['effective_acc_mngr']}}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Region Head">
+                  <th mat-header-cell *matHeaderCellDef> Region Head </th>
+                  <td mat-cell *matCellDef="let element ; let i = index">
+
+
+                    <mat-form-field *ngIf="(edit[i] && edit[i] === 1)">
+                      <input type="text" matInput [(ngModel)]="editregion_head[i]">
+                    </mat-form-field>
+                    <span *ngIf="!edit[i] || (edit[i] && edit[i] === 0)">
+                      {{element['region_head']}}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Effective Region">
+                  <th mat-header-cell *matHeaderCellDef> Effective Region </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_region']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Effective Trans Date">
+                  <th mat-header-cell *matHeaderCellDef> Effective Trans Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_trans_date']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Effective Week">
+                  <th mat-header-cell *matHeaderCellDef> Effective Week </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_week']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Effective Qrtr">
+                  <th mat-header-cell *matHeaderCellDef> Effective Qrtr </th>
+                  <td mat-cell *matCellDef="let element"> {{element['effective_qrtr']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Currency Multiplier">
+                  <th mat-header-cell *matHeaderCellDef> Currency Multiplier </th>
+                  <td mat-cell *matCellDef="let element"> {{element['currency_multiplier']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="New Sales OTC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_otc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="New Sales MRC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="New Sales ARC">
+                  <th mat-header-cell *matHeaderCellDef> New Sales ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['new_sales_rrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Upgrade OTC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_otc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Upgrade MRC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Upgrade ARC">
+                  <th mat-header-cell *matHeaderCellDef> Upgrade ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['upgrade_arc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Degarde MRC">
+                  <th mat-header-cell *matHeaderCellDef> Degarde MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['degarde_mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Degarde ARC">
+                  <th mat-header-cell *matHeaderCellDef> Degarde ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['degarde_arc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Deactivation MRC">
+                  <th mat-header-cell *matHeaderCellDef> Deactivation MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Deactivation ARC">
+                  <th mat-header-cell *matHeaderCellDef> Deactivation ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['deactivation_arc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Gross ARC Added">
+                  <th mat-header-cell *matHeaderCellDef> Gross ARC Added </th>
+                  <td mat-cell *matCellDef="let element"> {{element['gross_arc_added']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NET OTC">
+                  <th mat-header-cell *matHeaderCellDef> NET OTC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_otc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NET MRC">
+                  <th mat-header-cell *matHeaderCellDef> NET MRC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_mrc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NET ARC">
+                  <th mat-header-cell *matHeaderCellDef> NET ARC </th>
+                  <td mat-cell *matCellDef="let element"> {{element['net_arc']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Company Verticals">
+                  <th mat-header-cell *matHeaderCellDef> Company Verticals </th>
+                  <td mat-cell *matCellDef="let element"> {{element['companyvertical']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Presales Name">
+                  <th mat-header-cell *matHeaderCellDef> Presales Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element['presales_name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Remarks">
+                  <th mat-header-cell *matHeaderCellDef> Remarks </th>
+                  <td mat-cell *matCellDef="let element"> {{element['remarks']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Month">
+                  <th mat-header-cell *matHeaderCellDef> Month </th>
+                  <td mat-cell *matCellDef="let element"> {{element['month']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Ver 1">
+                  <th mat-header-cell *matHeaderCellDef> Ver 1 </th>
+                  <td mat-cell *matCellDef="let element"> {{element['ver_1']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Billing Status">
+                  <th mat-header-cell *matHeaderCellDef> Billing Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['billing_status']}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="National head">
+                  <th mat-header-cell *matHeaderCellDef> National head </th>
+                  <td mat-cell *matCellDef="let element"> {{element['national_head']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="BU">
+                  <th mat-header-cell *matHeaderCellDef> BU </th>
+                  <td mat-cell *matCellDef="let element"> {{element['bu']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="PM">
+                  <th mat-header-cell *matHeaderCellDef> PM </th>
+                  <td mat-cell *matCellDef="let element; let i =index">
+
+                    <mat-form-field *ngIf="(edit[i] && edit[i] === 1)">
+                      <input type="text" matInput [(ngModel)]="editpm[i]">
+                    </mat-form-field>
+                    <span *ngIf="!edit[i] || (edit[i] && edit[i] === 0)">
+                      {{element['pm']}}
+                    </span>
+
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="OPF Version">
+                  <th mat-header-cell *matHeaderCellDef> OPF Version </th>
+                  <td mat-cell *matCellDef="let element"> {{element['opf_version']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Collection Status">
+                  <th mat-header-cell *matHeaderCellDef> Collection Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element['collection_status']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Company ID">
+                  <th mat-header-cell *matHeaderCellDef> Company ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element['company_id']}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="tableCols; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableCols;"></tr>
+              </table>
+            </div>
+            <div class="text_center" *ngIf='tableData.length === 0'>
+              <h3>Sorry no data found</h3>
+            </div>
+            <mat-paginator *ngIf='tableData.length > 0' [pageSizeOptions]="page.pageSizeOptions" [length]="page.limit"
+              [pageSize]="page.pageSize" (page)="PageChange($event)" showFirstLastButtons></mat-paginator>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+
+
+    </div>
+  </mat-tab>
+</mat-tab-group>

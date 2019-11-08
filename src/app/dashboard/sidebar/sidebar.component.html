@@ -1,0 +1,66 @@
+<ul class="side_nav">
+    <li class="_flex_center" routerLinkActive="active" *ngIf='UserType === "admin"' [routerLink]='["/dashboard/uploader"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/upload_icon.png">
+        </div>
+        Upload
+    </li>
+    <li class="_flex_center" routerLinkActive="active" [routerLink]='["/dashboard/interface"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/list.png">
+        </div>
+        Interface
+    </li>
+    <li class="_flex_center" routerLinkActive="active" *ngIf='UserType === "admin"' [routerLink]='["/dashboard/delete-view-batch"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/whitepens.png">
+        </div>
+        Delete/View Batch
+    </li>
+    <li class="_flex_center" routerLinkActive="active" *ngIf='UserType === "admin"' [routerLink]='["/dashboard/merge-companies"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/merge.png">
+        </div>
+    Merge Companies
+    </li>
+    <li class="_flex_center" routerLinkActive="active" *ngIf='UserType === "admin"' [routerLink]='["/dashboard/unmerge-companies"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/unmerge.png">
+        </div>
+    Unmerge Companies
+    </li>
+    <li class="_flex_center" routerLinkActive="active" *ngIf='UserType === "admin"' [routerLink]='["/dashboard/employee-management"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/employee.png">
+        </div>
+        Employee Management
+    </li>
+    <li class="_flex_center" routerLinkActive="active"  [routerLink]='["/dashboard/company-management"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/company.png">
+        </div>
+        Company Management
+    </li>
+    <li class="_flex_center" routerLinkActive="active"  [routerLink]='["/dashboard/designation-management"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/employee.png">
+        </div>
+        Designations
+    </li>
+    <li class="_flex_center" routerLinkActive="active"  [routerLink]='["/dashboard/department-management"]'>
+        
+        <div class="icon">
+            <img src="../../../assets/departs.png">
+        </div>
+        Departments
+    </li>
+
+</ul>
